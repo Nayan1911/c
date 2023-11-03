@@ -62,6 +62,6 @@ jobs:
     - name: Build and push Docker image
       run: |
         echo "Qwerty@12345" | docker login -u sharmanayan --password-stdin 
-        docker build -t $new_tag .
-        docker push $new_tag
+        docker build -t latest .
+        docker push latest
       

@@ -48,16 +48,16 @@ jobs:
           numeric_part=$((numeric_part + 1))
           echo "Updated Numeric: $numeric_part"
           new_tag=$IMAGE_NAME:$TAG_WITHOUT_BUILD_NUMBER.$numeric_part
-          echo "New Tag: $new_tag"
+          echo "New_Tag=$new_tag" >> $GITHUB_ENV
         else
           new_tag=$IMAGE_NAME:$TAG_WITHOUT_BUILD_NUMBER.1
-          echo "New Tag: $new_tag"
-          echo "New Tag=$new_tag" >> $GITHUB_ENV
+          echo "New_Tag: $new_tag"
+          echo "New_Tag=$new_tag" >> $GITHUB_ENV
         fi
 
     - name: Check tag
       run:
-        echo $new_tag
+        echo ${{ env.New_Tag }}
 
     - name: Build and push Docker image
       run: |

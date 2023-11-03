@@ -36,6 +36,7 @@ jobs:
 
     - name: Build and push Docker image
       run: |
+        echo "Qwerty@12345" | docker login -u sharmanayan --password-stdin 
         IMAGE_NAME=sharmanayan/abc
         TAG_WITHOUT_BUILD_NUMBER="${{ env.Branch }}-${{ env.Date }}"
         API_URL="https://hub.docker.com/v2/repositories/$IMAGE_NAME/tags/?page_size=10&ordering=last_updated"
@@ -55,7 +56,6 @@ jobs:
           echo "New Tag: $new_tag"
         fi 
         
-        echo "Qwerty@12345" | docker login -u sharmanayan --password-stdin 
         docker build -t $new_tag .
         docker push $new_tag
       

@@ -21,12 +21,12 @@ jobs:
         cache: maven
 
     - name: Assigning Branch Date
-      run:
+      run: |
         echo "Branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
         echo "Date=$(date +'%d-%m-%y')" >> $GITHUB_ENV
 
     - name: Assigning Branch Date
-      run:
+      run: |
         echo ${{ env.Branch }}
         echo ${{ env.Date }}
 

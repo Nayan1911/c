@@ -36,9 +36,9 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        IMAGE_NAME="sharmanayan/abc"
+        IMAGE_NAME=sharmanayan/abc
         
-        echo "Qwerty@12345" | docker login -u your-docker-username --password-stdin
+        echo "Qwerty@12345" | docker login -u sharmanayan --password-stdin
         
         # Build and tag the Docker image
         docker build -t abc:${{ env.Branch }}-${{ env.Date }} .

@@ -22,8 +22,8 @@ jobs:
 
     - name: Assigning Branch Date
       run:
-        Branch=$(( $GITHUB_REF#refs/heads/ )) >> $GITHUB_ENV
-        Date=$(Date +'%d'-'%m'-'%y') >> $GITHUB_ENV
+        Branch=$(( GITHUB_REF#refs/heads/ )) >> $GITHUB_ENV
+        Date=$(date +'%d-%m-%y') >> $GITHUB_ENV
 
     - name: Assigning Branch Date
       run:

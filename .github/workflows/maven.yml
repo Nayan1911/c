@@ -47,10 +47,10 @@ jobs:
           echo "Numeric part: $numeric_part"
           numeric_part=$((numeric_part + 1))
           echo "Updated Numeric: $numeric_part"
-          new_tag="$IMAGE_NAME:$TAG_WITHOUT_BUILD_NUMBER.$numeric_part"
+          new_tag=$IMAGE_NAME:$TAG_WITHOUT_BUILD_NUMBER.$numeric_part
           echo "New Tag: $new_tag"
         else
-          new_tag="$IMAGE_NAME:$TAG_WITHOUT_BUILD_NUMBER.1"
+          new_tag=$IMAGE_NAME:$TAG_WITHOUT_BUILD_NUMBER.1
           echo "New Tag: $new_tag"
           echo "New Tag=$new_tag" >> $GITHUB_ENV
         fi
@@ -62,6 +62,6 @@ jobs:
     - name: Build and push Docker image
       run: |
         echo "Qwerty@12345" | docker login -u sharmanayan --password-stdin 
-        docker build -t latest .
-        docker push latest
+        docker build -t ${{ env.New_Tag }} .
+        docker push ${{ env.New_Tag }}
       

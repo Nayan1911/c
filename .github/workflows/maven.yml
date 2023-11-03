@@ -55,6 +55,7 @@ jobs:
           echo "New_Tag=$new_tag" >> $GITHUB_ENV
         fi
 
+
     - name: Check tag
       run:
         echo ${{ env.New_Tag }}

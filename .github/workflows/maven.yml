@@ -22,13 +22,13 @@ jobs:
 
     - name: Assigning Branch Date
       run:
-        Branch=$(( $GITHUB_REF#refs/path/ )) >> $GITHUB_ENV
+        Branch=$(( $GITHUB_REF#refs/heads/ )) >> $GITHUB_ENV
         Date=$(Date +'%d'-'%m'-'%y') >> $GITHUB_ENV
 
     - name: Assigning Branch Date
       run:
-        echo $Branch
-        echo $Date
+        echo "Branch=${{ env.Branch }}"
+        echo "Date=${{ env.Date }}"
 
     - name: Build with Maven
       run: mvn clean install 

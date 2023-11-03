@@ -37,7 +37,7 @@ jobs:
     - name: Build and push Docker image
       run: |
         IMAGE_NAME=sharmanayan/abc
-        TAG_WITHOUT_BUILD_NUMBER={{ env.Branch }}-${{ env.Date }}
+        TAG_WITHOUT_BUILD_NUMBER=${{ env.Branch }}-${{ env.Date }}
         API_URL="https://hub.docker.com/v2/repositories/$IMAGE_NAME/tags/?page_size=10&ordering=last_updated"
         AUTH_HEADER="Authorization: Bearer ${{ secrets.DOCKER_TOKEN }}"
         RESPONSE=$(curl --location --header "$AUTH_HEADER" "$API_URL")

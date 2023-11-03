@@ -27,8 +27,8 @@ jobs:
 
     - name: Assigning Branch Date
       run:
-        echo "Branch=${{ env.Branch }}"
-        echo "Date=${{ env.Date }}"
+        echo ${{ env.Branch }}
+        echo ${{ env.Date }}
 
     - name: Build with Maven
       run: mvn clean install 

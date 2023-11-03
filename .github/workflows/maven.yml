@@ -37,13 +37,25 @@ jobs:
     - name: Build and push Docker image
       run: |
         IMAGE_NAME=sharmanayan/abc
+        TAG_WITHOUT_BUILD_NUMBER={{ env.Branch }}-${{ env.Date }}
+        API_URL="https://hub.docker.com/v2/repositories/$IMAGE_NAME/tags/?page_size=10&ordering=last_updated"
+        AUTH_HEADER="Authorization: Bearer ${{ secrets.DOCKER_TOKEN }}"
+        RESPONSE=$(curl --location --header "$AUTH_HEADER" "$API_URL")
+        UPDATED_TAG=$(echo "$RESPONSE" | jq -r ".results[].name | select(. | test(\"$TAG_WITHOUT_BUILD_NUMBER\"))" | sort -rV | head -n 1)
+        echo $UPDATED_TAG
+        if [ -n "$UPDATED_TAG" ]; then
+          numeric_part="${UPDATED_TAG##*.}"
+          echo "Numeric part: $numeric_part"
+          numeric_part=$((numeric_part + 1))
+          echo "Updated Numeric: $numeric_part"
+          new_tag=$IMAGE_NAME:$TAG_WITHOUT_BUILD_NUMBER.$numeric_part
+          echo "New Tag: $new_tag"
+        else
+          new_tag=$IMAGE_NAME:$TAG_WITHOUT_BUILD_NUMBER.1
+          echo "New Tag: $new_tag"
+        fi 
         
-        echo "Qwerty@12345" | docker login -u sharmanayan --password-stdin
-        
-        # Build and tag the Docker image
-        docker build -t abc:${{ env.Branch }}-${{ env.Date }} .
-        docker tag abc:${{ env.Branch }}-${{ env.Date }} abc:${{ env.Branch }}-${{ env.Date }}
-        
-        # Push the Docker image
-        docker push abc:${{ env.Branch }}-${{ env.Date }}
+        echo "Qwerty@12345" | docker login -u sharmanayan --password-stdin 
+        docker build -t $new_tag .
+        docker push $new_tag
       

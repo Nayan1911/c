@@ -33,10 +33,8 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
 
-
-    - name: Build and push Docker image
+    - name: Define tagging
       run: |
-        echo "Qwerty@12345" | docker login -u sharmanayan --password-stdin 
         IMAGE_NAME="sharmanayan/abc"
         TAG_WITHOUT_BUILD_NUMBER="${{ env.Branch }}-${{ env.Date }}"
         API_URL="https://hub.docker.com/v2/repositories/$IMAGE_NAME/tags/?page_size=10&ordering=last_updated"
@@ -54,8 +52,16 @@ jobs:
         else
           new_tag="$IMAGE_NAME:$TAG_WITHOUT_BUILD_NUMBER.1"
           echo "New Tag: $new_tag"
-        fi 
-        
+          echo "New Tag=$new_tag" >> $GITHUB_ENV
+        fi
+
+    - name: Check tag
+      run:
+        echo $new_tag
+
+    - name: Build and push Docker image
+      run: |
+        echo "Qwerty@12345" | docker login -u sharmanayan --password-stdin 
         docker build -t $new_tag .
         docker push $new_tag
       

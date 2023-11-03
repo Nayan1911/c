@@ -31,6 +31,19 @@ jobs:
         echo ${{ env.Date }}
 
     - name: Build with Maven
-      run: mvn clean install 
+      run: mvn clean install
 
-    
+
+    - name: Build and push Docker image
+      run: |
+        IMAGE_NAME="sharmanayan/abc"
+        
+        echo "Qwerty@12345" | docker login -u your-docker-username --password-stdin
+        
+        # Build and tag the Docker image
+        docker build -t abc:${{ env.Branch }}-${{ env.Date }} .
+        docker tag abc:${{ env.Branch }}-${{ env.Date }} abc:${{ env.Branch }}-${{ env.Date }}
+        
+        # Push the Docker image
+        docker push abc:${{ env.Branch }}-${{ env.Date }}
+      
